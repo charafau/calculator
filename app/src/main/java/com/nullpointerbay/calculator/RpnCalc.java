@@ -9,10 +9,6 @@ import java.util.Stack;
 
 public class RpnCalc {
 
-
-    private static final String CHAR_PLUS = "+";
-    private static final String CHAR_MINUS = "-";
-
     /**
      * using Shunting-yard algorithm for tranforming infix notation
      * to postifx RPN notation
@@ -20,14 +16,12 @@ public class RpnCalc {
      * @param input
      * @return
      */
-    public String transfortInfixToPostfix(String input) {
-
+    public String transformInfixToPostfix(String input) {
 
         List<String> outputQueue = new LinkedList<>();
+
         Stack<Operation> operationStack = new Stack<>();
-
         final String[] splitedEquation = input.split(" ");
-
         for (String token : splitedEquation) {
             if (isOperator(token)) {
                 if (operationStack.isEmpty()) {
@@ -69,21 +63,17 @@ public class RpnCalc {
      * @param token
      * @return
      */
-    private Stack<Operation> addOperation(Stack<Operation> operationStack, String token) {
+    Stack<Operation> addOperation(Stack<Operation> operationStack, String token) {
 
         final Stack<Operation> newStack = new Stack<>();
         newStack.addAll(operationStack);
 
-        if (CHAR_PLUS.equals(token)) {
-            newStack.add(Operation.ADD);
-        } else {
-            newStack.add(Operation.SUBTRACT);
-        }
+        newStack.add(Operation.formString(token));
 
         return newStack;
     }
 
     boolean isOperator(String token) {
-        return CHAR_PLUS.equals(token) || CHAR_MINUS.equals(token);
+        return Operation.formString(token) != Operation.UNKNOWN_OPERATION;
     }
 }
