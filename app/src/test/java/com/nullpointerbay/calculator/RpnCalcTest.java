@@ -34,9 +34,18 @@ public class RpnCalcTest {
     @Test
     public void shouldTransformFourNumbers() throws Exception {
 
-        String input = " 2 + 3 + 4 - 5";
+        String input = "2 + 3 + 4 - 5";
 
         assertEquals("2 3 + 4 + 5 -", rpnCalc.transformInfixToPostfix(input));
+
+    }
+
+    @Test
+    public void shouldTransformSixNumbers() throws Exception {
+
+        String input = "-2 + 3 - 4 + 5 + 2 + 2";
+
+        assertEquals("-2 3 + 4 - 5 + 2 + 2 +", rpnCalc.transformInfixToPostfix(input));
 
     }
 
@@ -70,6 +79,34 @@ public class RpnCalcTest {
 
         assertThat(rpnCalc.addOperation(oldOperations, "-"), is(newOperations));
         assertThat(oldOperations, is(immutableOperations));
+
+    }
+
+    @Test
+    public void shouldAddTwoNumbersInPostfix() throws Exception {
+
+        double value = rpnCalc.calculate("1 2 +");
+
+        assertThat(value, is(3.0));
+
+
+    }
+
+    @Test
+    public void shouldCalculateFourNumbers() throws Exception {
+
+        double value = rpnCalc.calculate("2 3 + 4 + 5 -");
+
+        assertThat(value, is(4.0));
+
+    }
+
+    @Test
+    public void shouldSupportMinusFirstEquations() throws Exception {
+
+        final double value = rpnCalc.calculate("-2 3 +");
+
+        assertThat(value, is(1.0));
 
     }
 }
