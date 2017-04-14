@@ -12,22 +12,25 @@
             android:id="@+id/txtOutput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="10dp"
             android:layout_span="4"
+            android:gravity="right"
+            android:padding="16dp"
             android:textSize="30sp" />
     </TableRow>
 
     <TableRow style="@style/TableRowCalculator">
 
-        <EditText
-            android:id="@+id/editInput"
+        <TextView
+            android:id="@+id/txtSummary"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_span="4"
             android:enabled="false"
-            android:gravity="bottom"
+            android:gravity="bottom|right"
             android:lines="2"
             android:maxLines="2"
+            android:padding="16dp"
             android:textSize="20sp" />
     </TableRow>
 
