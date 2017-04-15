@@ -284,4 +284,81 @@ public class CalculatorIntegrationTest {
 
 
     }
+
+    @Test
+    public void shouldAppendSummaryToNewEquation() {
+        ViewInteraction appCompatButton = onView(
+                allOf(withId(R.id.btnTwo), isDisplayed()));
+        appCompatButton.perform(click());
+
+        ViewInteraction appCompatButton2 = onView(
+                allOf(withId(R.id.btnAdd), isDisplayed()));
+        appCompatButton2.perform(click());
+
+        ViewInteraction appCompatButton3 = onView(
+                allOf(withId(R.id.bntFour), isDisplayed()));
+        appCompatButton3.perform(click());
+
+        ViewInteraction appCompatButton4 = onView(
+                allOf(withId(R.id.btnEqual), isDisplayed()));
+        appCompatButton4.perform(click());
+
+        ViewInteraction appCompatButton5 = onView(
+                allOf(withId(R.id.btnAdd), isDisplayed()));
+        appCompatButton5.perform(click());
+
+        ViewInteraction appCompatButton6 = onView(
+                allOf(withId(R.id.btnTwo), isDisplayed()));
+        appCompatButton6.perform(click());
+
+
+        ViewInteraction appCompatButton7 = onView(
+                allOf(withId(R.id.btnEqual), withText("="), isDisplayed()));
+        appCompatButton7.perform(click());
+
+        ViewInteraction textView = onView(
+                allOf(withId(R.id.txtSummary),
+                        childAtPosition(
+                                childAtPosition(
+                                        IsInstanceOf.instanceOf(android.widget.TableLayout.class),
+                                        1),
+                                0),
+                        isDisplayed()));
+        textView.check(matches(withText("8.0")));
+
+    }
+
+    @Test
+    public void shouldCleanOutputWhenNotOperatorFirst() {
+        ViewInteraction appCompatButton = onView(
+                allOf(withId(R.id.btnFive), isDisplayed()));
+        appCompatButton.perform(click());
+
+        ViewInteraction appCompatButton2 = onView(
+                allOf(withId(R.id.btnAdd), isDisplayed()));
+        appCompatButton2.perform(click());
+
+        ViewInteraction appCompatButton3 = onView(
+                allOf(withId(R.id.btnSix), isDisplayed()));
+        appCompatButton3.perform(click());
+
+        ViewInteraction appCompatButton4 = onView(
+                allOf(withId(R.id.btnEqual), isDisplayed()));
+        appCompatButton4.perform(click());
+
+        ViewInteraction appCompatButton5 = onView(
+                allOf(withId(R.id.btnFive), isDisplayed()));
+        appCompatButton5.perform(click());
+
+        ViewInteraction textView = onView(
+                allOf(withId(R.id.txtSummary),
+                        childAtPosition(
+                                childAtPosition(
+                                        IsInstanceOf.instanceOf(android.widget.TableLayout.class),
+                                        1),
+                                0),
+                        isDisplayed()));
+        textView.check(matches(withText("")));
+
+    }
 }

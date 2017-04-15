@@ -1,6 +1,7 @@
 package com.nullpointerbay.calculator;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.btnEqual)
     Button btnEqual;
     private RpnCalc rpnCalc;
+    private boolean checkForCleaningResult = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,9 +89,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.btnEqual:
                 final CharSequence text = txtOutput.getText();
                 if (!TextUtils.isEmpty(text)) {
-                    final String postfixEquation = rpnCalc.transformInfixToPostfix(text.toString());
+                    final String summaryResult = getSummaryOrZero();
+                    final String postfixEquation = rpnCalc.transformInfixToPostfix(summaryResult + text.toString());
                     final double result = rpnCalc.calculate(postfixEquation);
                     this.txtSummary.setText(String.valueOf(result));
+                    this.checkForCleaningResult = true;
                 }
                 this.txtOutput.setText("");
                 break;
@@ -101,13 +105,24 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @NonNull
+    private String getSummaryOrZero() {
+        final String summaryText = this.txtSummary.getText().toString();
+        return TextUtils.isEmpty(summaryText) ? "0" : summaryText;
+    }
+
     private void appendStringToOutput(int seven) {
         this.btnEqual.setEnabled(true);
         this.txtOutput.setText(String.format("%s%d", this.txtOutput.getText(), seven));
+        if (checkForCleaningResult) {
+            this.txtSummary.setText("");
+            this.checkForCleaningResult = false;
+        }
     }
 
     private void appendOperatorToOutput(String operator) {
         this.btnEqual.setEnabled(false);
+        this.checkForCleaningResult = false;
         this.txtOutput.setText(String.format("%s%s", this.txtOutput.getText(), operator));
     }
 }
