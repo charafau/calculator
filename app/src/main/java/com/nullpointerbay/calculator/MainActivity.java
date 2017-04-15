@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -22,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     TextView txtOutput;
     @BindView(R.id.txtSummary)
     TextView txtSummary;
+    @BindView(R.id.btnEqual)
+    Button btnEqual;
     private RpnCalc rpnCalc;
 
     @Override
@@ -88,15 +91,18 @@ public class MainActivity extends AppCompatActivity {
             case R.id.btnClear:
                 this.txtOutput.setText("");
                 this.txtSummary.setText("");
+                this.btnEqual.setEnabled(true);
                 break;
         }
     }
 
     private void appendStringToOutput(int seven) {
+        this.btnEqual.setEnabled(true);
         this.txtOutput.setText(String.format("%s%d", this.txtOutput.getText(), seven));
     }
 
     private void appendOperatorToOutput(String operator) {
+        this.btnEqual.setEnabled(false);
         this.txtOutput.setText(String.format("%s%s", this.txtOutput.getText(), operator));
     }
 }

@@ -20,9 +20,11 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.not;
 
 @RunWith(AndroidJUnit4.class)
 public class CalculatorIntegrationTest {
@@ -171,6 +173,61 @@ public class CalculatorIntegrationTest {
                                 0),
                         isDisplayed()));
         textView4.check(matches(withText("")));
+
+    }
+
+    @Test
+    public void shouldDisableButtonWhenClickOperatorButton() {
+        ViewInteraction appCompatButton = onView(
+                allOf(withId(R.id.btnSix), withText("6"), isDisplayed()));
+        appCompatButton.perform(click());
+
+        ViewInteraction appCompatButton2 = onView(
+                allOf(withId(R.id.btnAdd), withText("+"), isDisplayed()));
+        appCompatButton2.perform(click());
+
+
+        ViewInteraction button = onView(
+                allOf(withId(R.id.btnEqual),
+                        childAtPosition(
+                                childAtPosition(
+                                        IsInstanceOf.instanceOf(android.widget.TableLayout.class),
+                                        5),
+                                2),
+                        isDisplayed()));
+        button.check(matches(not(isEnabled())));
+
+        ViewInteraction appCompatButton3 = onView(
+                allOf(withId(R.id.btnSix), withText("6"), isDisplayed()));
+        appCompatButton3.perform(click());
+
+        ViewInteraction button2 = onView(
+                allOf(withId(R.id.btnEqual),
+                        childAtPosition(
+                                childAtPosition(
+                                        IsInstanceOf.instanceOf(android.widget.TableLayout.class),
+                                        5),
+                                2),
+                        isDisplayed()));
+        button2.check(matches(isEnabled()));
+
+        ViewInteraction appCompatButton4 = onView(
+                allOf(withId(R.id.btnAdd), withText("+"), isDisplayed()));
+        appCompatButton4.perform(click());
+
+        ViewInteraction appCompatButton5 = onView(
+                allOf(withId(R.id.btnClear), withText("C"), isDisplayed()));
+        appCompatButton5.perform(click());
+
+        ViewInteraction button3 = onView(
+                allOf(withId(R.id.btnEqual),
+                        childAtPosition(
+                                childAtPosition(
+                                        IsInstanceOf.instanceOf(android.widget.TableLayout.class),
+                                        5),
+                                2),
+                        isDisplayed()));
+        button3.check(matches(isEnabled()));
 
     }
 
