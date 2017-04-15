@@ -51,7 +51,11 @@ public class MainActivity extends AppCompatActivity {
                 appendStringToOutput(9);
                 break;
             case R.id.btnMinus:
-                appendOperatorToOutput(" - ");
+                if (TextUtils.isEmpty(this.txtOutput.getText())) {
+                    appendOperatorToOutput(" -");
+                } else {
+                    appendOperatorToOutput(" - ");
+                }
                 break;
             case R.id.bntFour:
                 appendStringToOutput(4);
@@ -87,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
                     final double result = rpnCalc.calculate(postfixEquation);
                     this.txtSummary.setText(String.valueOf(result));
                 }
+                this.txtOutput.setText("");
                 break;
             case R.id.btnClear:
                 this.txtOutput.setText("");

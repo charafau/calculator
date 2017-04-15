@@ -113,7 +113,7 @@ public class CalculatorIntegrationTest {
     }
 
     @Test
-    public void mainActivityTest() {
+    public void shouldCleanSummaryAfterClickingClear() {
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.btnFive), withText("5"), isDisplayed()));
         appCompatButton.perform(click());
@@ -141,14 +141,14 @@ public class CalculatorIntegrationTest {
         textView.check(matches(withText("8.0")));
 
         ViewInteraction textView2 = onView(
-                allOf(withId(R.id.txtOutput), withText("5 + 3"),
+                allOf(withId(R.id.txtOutput),
                         childAtPosition(
                                 childAtPosition(
                                         IsInstanceOf.instanceOf(android.widget.TableLayout.class),
                                         0),
                                 0),
                         isDisplayed()));
-        textView2.check(matches(withText("5 + 3")));
+        textView2.check(matches(withText("")));
 
         ViewInteraction appCompatButton5 = onView(
                 allOf(withId(R.id.btnClear), withText("C"), isDisplayed()));
@@ -231,5 +231,57 @@ public class CalculatorIntegrationTest {
 
     }
 
+    @Test
+    public void shouldNotPutSpaceAfterMinusWhenFirstClicked() {
+        ViewInteraction appCompatButton = onView(
+                allOf(withId(R.id.btnMinus), withText("-"), isDisplayed()));
+        appCompatButton.perform(click());
 
+        ViewInteraction appCompatButton2 = onView(
+                allOf(withId(R.id.btnTwo), withText("2"), isDisplayed()));
+        appCompatButton2.perform(click());
+
+        ViewInteraction appCompatButton3 = onView(
+                allOf(withId(R.id.btnAdd), withText("+"), isDisplayed()));
+        appCompatButton3.perform(click());
+
+        ViewInteraction appCompatButton4 = onView(
+                allOf(withId(R.id.bntFour), withText("4"), isDisplayed()));
+        appCompatButton4.perform(click());
+
+        ViewInteraction appCompatButton5 = onView(
+                allOf(withId(R.id.btnMinus), withText("-"), isDisplayed()));
+        appCompatButton5.perform(click());
+
+        ViewInteraction appCompatButton6 = onView(
+                allOf(withId(R.id.btnOne), withText("1"), isDisplayed()));
+        appCompatButton6.perform(click());
+
+        ViewInteraction textView = onView(
+                allOf(withId(R.id.txtOutput), withText(" -2 + 4 - 1"),
+                        childAtPosition(
+                                childAtPosition(
+                                        IsInstanceOf.instanceOf(android.widget.TableLayout.class),
+                                        0),
+                                0),
+                        isDisplayed()));
+        textView.check(matches(withText(" -2 + 4 - 1")));
+
+        ViewInteraction appCompatButton7 = onView(
+                allOf(withId(R.id.btnEqual), withText("="), isDisplayed()));
+        appCompatButton7.perform(click());
+
+
+        ViewInteraction result = onView(
+                allOf(withId(R.id.txtSummary), withText("1.0"),
+                        childAtPosition(
+                                childAtPosition(
+                                        IsInstanceOf.instanceOf(android.widget.TableLayout.class),
+                                        1),
+                                0),
+                        isDisplayed()));
+        result.check(matches(withText("1.0")));
+
+
+    }
 }
